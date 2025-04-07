@@ -1,0 +1,43 @@
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - ftpHost
+      - ftpUsername
+      - ftpPassword
+    properties:
+      ftpHost:
+        type: string
+        description: FTP host address.
+      ftpUsername:
+        type: string
+        description: FTP username.
+      ftpPassword:
+        type: string
+        description: FTP password.
+      ftpPort:
+        type: number
+        default: 21
+        description: FTP port, default is 21.
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({
+      command: 'dotnet',
+      args: ['FtpManagerMcp.dll'],
+      env: {
+        FTP_HOST: config.ftpHost,
+        FTP_USERNAME: config.ftpUsername,
+        FTP_PASSWORD: config.ftpPassword,
+        FTP_PORT: String(config.ftpPort)
+      }
+    })
+  exampleConfig:
+    ftpHost: ftp.example.com
+    ftpUsername: user123
+    ftpPassword: pass123
+    ftpPort: 21
