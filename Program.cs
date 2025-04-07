@@ -1,6 +1,9 @@
 ﻿using FtpManagerMcp;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-var builder = WebApplication.CreateBuilder();
+var builder = Host.CreateApplicationBuilder(args);
 builder.Logging.AddConsole(consoleLogOptions =>
 {
     // Configure all logs to go to stderr
@@ -11,8 +14,10 @@ builder.Services
     .WithStdioServerTransport()
     .WithTools<FtpTool>();
 
-var app = builder.Build();
+await builder.Build().RunAsync();
 
-app.MapMcp();
+// var app = builder.Build();
 
-app.Run();
+// app.MapMcp();
+
+// app.Run();
