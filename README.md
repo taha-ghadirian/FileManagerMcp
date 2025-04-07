@@ -76,18 +76,18 @@ npx @modelcontextprotocol/inspector dotnet run
 
 The application uses environment variables for configuration. Here are the required environment variables:
 
-| Variable | Description | Required | Default |
+| Option | Description | Required | Default |
 |----------|-------------|----------|---------|
-| `FTP_HOST` | FTP server hostname or IP address | Yes | - |
-| `FTP_USERNAME` | FTP account username | Yes | - |
-| `FTP_PASSWORD` | FTP account password | Yes | - |
-| `FTP_PORT` | FTP server port | No | 21 |
+| `ftpHost` | FTP server hostname or IP address | Yes | - |
+| `ftpUsername` | FTP account username | Yes | - |
+| `ftpPassword` | FTP account password | Yes | - |
+| `ftpPort` | FTP server port | No | 21 |
 
 You can set these environment variables in several ways:
 
 1. Setting them inline when running the application:
    ```bash
-   FTP_HOST=ftp.example.com FTP_USERNAME=myuser FTP_PASSWORD=mypassword npx @modelcontextprotocol/inspector dotnet run
+   ftpHost=ftp.example.com ftpUsername=myuser ftpPassword=mypassword npx @modelcontextprotocol/inspector dotnet run
    ```
 
 ⚠️ **Security Note**: Never commit sensitive information like passwords to version control. Always use environment variables or secure secrets management for production deployments.
