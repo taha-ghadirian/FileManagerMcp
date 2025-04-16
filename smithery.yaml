@@ -30,10 +30,10 @@ startCommand:
       command: 'dotnet',
       args: ['FileManagerMcp.dll'],
       env: {
-        FTP_HOST: config.ftpHost,
-        FTP_USERNAME: config.ftpUsername,
-        FTP_PASSWORD: config.ftpPassword,
-        FTP_PORT: String(config.ftpPort)
+        FTP__HOST: config.ftpHost,
+        FTP__USERNAME: config.ftpUsername,
+        FTP__PASSWORD: config.ftpPassword,
+        FTP__PORT: String(config.ftpPort)
       }
     })
   exampleConfig:
