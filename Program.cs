@@ -7,8 +7,8 @@ using Microsoft.Extensions.Configuration;
 // Load configuration from appsettings.json
 var configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json")
     .AddEnvironmentVariables()
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
     .AddUserSecrets<Program>()
     .Build();
 
