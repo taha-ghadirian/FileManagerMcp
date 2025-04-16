@@ -9,16 +9,16 @@ public static class ServiceConfiguration
 {
     public static HostApplicationBuilder ConfigureServices(this HostApplicationBuilder builder, IConfiguration configuration)
     {
-        // builder.Logging.AddConsole(consoleLogOptions =>
-        // {
-        //     // Configure all logs to go to stderr
-        //     consoleLogOptions.LogToStandardErrorThreshold = LogLevel.Trace;
-        // });
+        builder.Logging.AddConsole(consoleLogOptions =>
+        {
+            // Configure all logs to go to stderr
+            consoleLogOptions.LogToStandardErrorThreshold = LogLevel.Trace;
+        });
 
-        // builder.Services
-        //     .AddMcpServer()
-        //     .WithStdioServerTransport()
-        //     .WithTools<FtpTool>();
+        builder.Services
+            .AddMcpServer()
+            .WithStdioServerTransport()
+            .WithTools<FtpTool>();
 
         return builder;
     }

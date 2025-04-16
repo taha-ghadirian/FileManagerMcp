@@ -12,7 +12,7 @@ public class FtpTool
         [Description("The directory to list files from.")] string directory = "/",
         [Description("Whether to list files recursively.")] bool recursive = false)
     {
-        using var client = new FtpClient(Login.host, Login.username, Login.password, Login.port);
+        using var client = new FtpClient(FtpCredential.host, FtpCredential.username, FtpCredential.password, FtpCredential.port);
         client.Connect();
 
         if (!client.DirectoryExists(directory))
@@ -32,7 +32,7 @@ public class FtpTool
         [Description("The file path to download. Example: '/path/to/file.txt'")] string filePath,
         [Description("The local path to download the file to, example: 'downloads/file.txt'")] string localPath = ".")
     {
-        using var client = new FtpClient(Login.host, Login.username, Login.password, Login.port);
+        using var client = new FtpClient(FtpCredential.host, FtpCredential.username, FtpCredential.password, FtpCredential.port);
         client.Connect();
 
         if (!client.FileExists(filePath))
@@ -62,7 +62,7 @@ public class FtpTool
         [Description("The file path to upload. Example: 'downloads/file.txt'")] string filePath,
         [Description("The remote path to upload the file to. Example: '/path/to/file.txt'")] string remotePath = "/")
     {
-        using var client = new FtpClient(Login.host, Login.username, Login.password, Login.port);
+        using var client = new FtpClient(FtpCredential.host, FtpCredential.username, FtpCredential.password, FtpCredential.port);
         client.Connect();
         
         if (!File.Exists(filePath))
@@ -90,7 +90,7 @@ public class FtpTool
     public string DeleteFile(
         [Description("The file path to delete. Example: '/path/to/file.txt'")] string filePath)
     {
-        using var client = new FtpClient(Login.host, Login.username, Login.password, Login.port);
+        using var client = new FtpClient(FtpCredential.host, FtpCredential.username, FtpCredential.password, FtpCredential.port);
         client.Connect();
 
         client.DeleteFile(filePath);
@@ -103,7 +103,7 @@ public class FtpTool
     public string DeleteFiles(
         [Description("The file paths to delete, separated by commas. Example: '/path/file1.txt,/path/file2.txt'")] string filePaths)
     {
-        using var client = new FtpClient(Login.host, Login.username, Login.password, Login.port);
+        using var client = new FtpClient(FtpCredential.host, FtpCredential.username, FtpCredential.password, FtpCredential.port);
         client.Connect();
 
         var paths = filePaths.Split(',').Select(p => p.Trim()).ToList();
@@ -137,7 +137,7 @@ public class FtpTool
     public string CreateDirectory(
         [Description("The path to create the directory in. Example: '/path/to/directory'")] string path)
     {
-        using var client = new FtpClient(Login.host, Login.username, Login.password, Login.port);
+        using var client = new FtpClient(FtpCredential.host, FtpCredential.username, FtpCredential.password, FtpCredential.port);
         client.Connect();
 
         if (client.DirectoryExists(path))
@@ -155,7 +155,7 @@ public class FtpTool
     public string DeleteDirectory(
         [Description("The path to delete the directory from. Example: '/path/to/directory'")] string path)
     {
-        using var client = new FtpClient(Login.host, Login.username, Login.password, Login.port);
+        using var client = new FtpClient(FtpCredential.host, FtpCredential.username, FtpCredential.password, FtpCredential.port);
         client.Connect();
 
         client.DeleteDirectory(path);

@@ -1,9 +1,9 @@
 namespace FileManagerMcp;
 
-public static class Login
+public class FtpCredential
 {
-    public static int port = 21;
-    public static string host = null!;
-    public static string username = null!;
-    public static string password = null!;
+    public int port = 21;
+    public string host = null!;
+    public string username = null!;
+    public string password = null!;
 }

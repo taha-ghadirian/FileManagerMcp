@@ -22,13 +22,9 @@ builder.Configuration
     .AddUserSecrets<Program>();
 
 var configuration = builder.Configuration;
-Login.host = configuration["FTP_Host"] ?? throw new Exception("FTP_Host configuration is required");
-Login.username = configuration["FTP_Username"] ?? throw new Exception("FTP_Username configuration is required");
-Login.password = configuration["FTP_Password"] ?? throw new Exception("FTP_Password configuration is required");
-if (int.TryParse(configuration["FTP_Port"], out int port))
-{
-    Login.port = port;
-}
+
+var loginDetail = builder.Configuration.GetSection("FTP").Get<FtpCredential>();
+builder.Services.AddSingleton<FtpCredential>(loginDetail ?? throw new ArgumentNullException(nameof(loginDetail)));
 
 builder.ConfigureServices(configuration);
 
