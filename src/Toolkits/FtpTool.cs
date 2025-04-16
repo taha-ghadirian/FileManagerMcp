@@ -2,7 +2,7 @@ using System.ComponentModel;
 using FluentFTP;
 using ModelContextProtocol.Server;
 
-namespace FileManagerMcp;
+namespace FileManagerMcp.Toolkits;
 
 [McpServerToolType]
 public class FtpTool
