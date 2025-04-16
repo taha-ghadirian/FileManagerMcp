@@ -2,7 +2,7 @@ using System.ComponentModel;
 using FluentFTP;
 using ModelContextProtocol.Server;
 
-namespace FtpManagerMcp;
+namespace FileManagerMcp;
 
 [McpServerToolType]
 public class FtpTool
@@ -163,4 +163,4 @@ public class FtpTool
         client.Disconnect();
         return $"Deleted directory {path}";
     }
-} 
+}

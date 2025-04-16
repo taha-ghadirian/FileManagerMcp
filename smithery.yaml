@@ -28,7 +28,7 @@ startCommand:
     |-
     (config) => ({
       command: 'dotnet',
-      args: ['FtpManagerMcp.dll'],
+      args: ['FileManagerMcp.dll'],
       env: {
         FTP_HOST: config.ftpHost,
         FTP_USERNAME: config.ftpUsername,

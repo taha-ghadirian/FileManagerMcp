@@ -5,7 +5,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <!-- <PublishAot>true</PublishAot> -->
+    <RootNamespace>FileManagerMcp</RootNamespace>
+    <AssemblyName>FileManagerMcp</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

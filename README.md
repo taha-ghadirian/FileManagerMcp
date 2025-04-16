@@ -1,10 +1,10 @@
-# FTP Manager MCP 📂
+# File Manager MCP 📂
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/yourusername/FtpManagerMcp/graphs/commit-activity)
-[![smithery badge](https://smithery.ai/badge/@taha-ghadirian/ftpmanagermcp)](https://smithery.ai/server/@taha-ghadirian/ftpmanagermcp)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/yourusername/FileManagerMcp/graphs/commit-activity)
+[![smithery badge](https://smithery.ai/badge/@taha-ghadirian/filemanagermcp)](https://smithery.ai/server/@taha-ghadirian/filemanagermcp)
 
-A powerful and user-friendly FTP Manager application that provides a modern interface for managing FTP file operations.
+A powerful and user-friendly File Manager application that provides a modern interface for managing FTP file operations.
 
 > 🤖 **AI-Powered Development**: This project is a result of vibe coding through AI prompt engineering. The entire codebase was developed by collaborating with AI, showcasing the potential of modern AI-assisted development practices.
 
@@ -22,7 +22,7 @@ A powerful and user-friendly FTP Manager application that provides a modern inte
 
 ### Using Smithery Hosted Service (Recommended) 
 
-1. Visit [Ftp Manager on smithery](https://smithery.ai/server/@taha-ghadirian/ftpmanagermcp)
+1. Visit [File Manager on smithery](https://smithery.ai/server/@taha-ghadirian/filemanagermcp)
 
 2. Create an account or sign in
 
@@ -44,17 +44,17 @@ If you prefer running the application locally, follow these steps:
    
    HTTPS:
    ```bash
-   git clone https://github.com/taha-ghadirian/FtpManagerMcp.git
+   git clone https://github.com/taha-ghadirian/FileManagerMcp.git
    ```
    
    SSH:
    ```bash
-   git clone git@github.com:taha-ghadirian/FtpManagerMcp.git
+   git clone git@github.com:taha-ghadirian/FileManagerMcp.git
    ```
 
    Then navigate to the project directory:
    ```bash
-   cd FtpManagerMcp
+   cd FileManagerMcp
    ```
 
 2. Install dependencies:

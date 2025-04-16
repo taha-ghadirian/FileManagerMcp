@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Copy csproj and restore dependencies
-COPY ["FtpManagerMcp.csproj", "./"]
+COPY ["FileManagerMcp.csproj", "./"]
 RUN dotnet restore
 
 # Copy the rest of the code
@@ -21,4 +21,4 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Set the entry point
-ENTRYPOINT ["dotnet", "FtpManagerMcp.dll"]
+ENTRYPOINT ["dotnet", "FileManagerMcp.dll"]
