@@ -4,11 +4,11 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Copy csproj and restore dependencies
-COPY ["FileManagerMcp.csproj", "./"]
+COPY ["src/FileManagerMcp.csproj", "./"]
 RUN dotnet restore
 
 # Copy the rest of the code
-COPY . .
+COPY src/ ./
 
 # Build and publish
 RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
