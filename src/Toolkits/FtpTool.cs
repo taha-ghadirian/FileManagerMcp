@@ -5,25 +5,32 @@ using ModelContextProtocol.Server;
 namespace FileManagerMcp.Toolkits;
 
 [McpServerToolType]
-public class FtpTool
+public class FtpTool : IDisposable
 {
+    private readonly FtpClient _client;
+    private readonly FtpCredential _credential;
+    public FtpTool(FtpCredential credential)
+    {
+        _credential = credential;
+        _client = new FtpClient(credential.host, credential.username, credential.password, credential.port);
+        _client.Connect();
+    }
+
+
+    
     [McpServerTool, Description("Return list of files in the given directory.")]
     public string ListFiles(
         [Description("The directory to list files from.")] string directory = "/",
         [Description("Whether to list files recursively.")] bool recursive = false)
     {
-        using var client = new FtpClient(FtpCredential.host, FtpCredential.username, FtpCredential.password, FtpCredential.port);
-        client.Connect();
-
-        if (!client.DirectoryExists(directory))
+        if (!_client.DirectoryExists(directory))
         {
             return $"Error: Directory '{directory}' does not exist";
         }
 
-        var items = client.GetListing(directory, recursive ? FtpListOption.Recursive : FtpListOption.AllFiles);
+        var items = _client.GetListing(directory, recursive ? FtpListOption.Recursive : FtpListOption.AllFiles);
         var fileList = items.Select(item => $"{item.Type},{item.FullName},{item.Size},{item.Modified}").ToList();
 
-        client.Disconnect();
         return "Type,Name,Size,Modified\n" + string.Join("\n", fileList);
     }
 
@@ -32,16 +39,13 @@ public class FtpTool
         [Description("The file path to download. Example: '/path/to/file.txt'")] string filePath,
         [Description("The local path to download the file to, example: 'downloads/file.txt'")] string localPath = ".")
     {
-        using var client = new FtpClient(FtpCredential.host, FtpCredential.username, FtpCredential.password, FtpCredential.port);
-        client.Connect();
-
-        if (!client.FileExists(filePath))
+        if (!_client.FileExists(filePath))
         {
             return $"Error: File '{filePath}' does not exist.";
         }
 
         var directory = Path.GetDirectoryName(localPath) ?? ".";
-        if (!client.DirectoryExists(directory))
+        if (!_client.DirectoryExists(directory))
         {
             Directory.CreateDirectory(directory);
         }
@@ -51,9 +55,8 @@ public class FtpTool
             return $"Error: Local file '{localPath}' already exists, can't overwrite it.";
         }
 
-        client.DownloadFile(filePath, localPath);
+        _client.DownloadFile(filePath, localPath);
 
-        client.Disconnect();
         return $"Downloaded {filePath} to {localPath}";
     }
 
@@ -61,28 +64,24 @@ public class FtpTool
     public string UploadFile(
         [Description("The file path to upload. Example: 'downloads/file.txt'")] string filePath,
         [Description("The remote path to upload the file to. Example: '/path/to/file.txt'")] string remotePath = "/")
-    {
-        using var client = new FtpClient(FtpCredential.host, FtpCredential.username, FtpCredential.password, FtpCredential.port);
-        client.Connect();
-        
+    {    
         if (!File.Exists(filePath))
         {
             return $"Error: Local file '{filePath}' does not exist";
         }
 
-        if (!client.DirectoryExists(Path.GetDirectoryName(remotePath)))
+        if (!_client.DirectoryExists(Path.GetDirectoryName(remotePath)))
         {
             return $"Error: Remote directory '{Path.GetDirectoryName(remotePath)}' does not exist";
         }
 
-        if (client.FileExists(remotePath))
+        if (_client.FileExists(remotePath))
         {
             return $"Error: Remote file '{remotePath}' already exists";
         }
 
-        client.UploadFile(filePath, remotePath);
+        _client.UploadFile(filePath, remotePath);
 
-        client.Disconnect();
         return $"Uploaded {filePath} to {remotePath}";
     }
 
@@ -90,12 +89,13 @@ public class FtpTool
     public string DeleteFile(
         [Description("The file path to delete. Example: '/path/to/file.txt'")] string filePath)
     {
-        using var client = new FtpClient(FtpCredential.host, FtpCredential.username, FtpCredential.password, FtpCredential.port);
-        client.Connect();
+        if (!_client.FileExists(filePath))
+        {
+            return $"Error: File '{filePath}' does not exist.";
+        }
 
-        client.DeleteFile(filePath);
+        _client.DeleteFile(filePath);
 
-        client.Disconnect();
         return $"Deleted {filePath}";
     }
 
@@ -103,9 +103,6 @@ public class FtpTool
     public string DeleteFiles(
         [Description("The file paths to delete, separated by commas. Example: '/path/file1.txt,/path/file2.txt'")] string filePaths)
     {
-        using var client = new FtpClient(FtpCredential.host, FtpCredential.username, FtpCredential.password, FtpCredential.port);
-        client.Connect();
-
         var paths = filePaths.Split(',').Select(p => p.Trim()).ToList();
         var deleted = new List<string>();
         var failed = new List<string>();
@@ -114,7 +111,7 @@ public class FtpTool
         {
             try
             {
-                client.DeleteFile(path);
+                _client.DeleteFile(path);
                 deleted.Add(path);
             }
             catch (Exception)
@@ -122,8 +119,6 @@ public class FtpTool
                 failed.Add(path);
             }
         }
-
-        client.Disconnect();
 
         var result = $"Deleted {deleted.Count} files: {string.Join(", ", deleted)}";
         if (failed.Count != 0)
@@ -137,17 +132,13 @@ public class FtpTool
     public string CreateDirectory(
         [Description("The path to create the directory in. Example: '/path/to/directory'")] string path)
     {
-        using var client = new FtpClient(FtpCredential.host, FtpCredential.username, FtpCredential.password, FtpCredential.port);
-        client.Connect();
-
-        if (client.DirectoryExists(path))
+        if (_client.DirectoryExists(path))
         {
             return $"Error: Directory '{path}' already exists.";
         }
 
-        client.CreateDirectory(path);
+        _client.CreateDirectory(path);
 
-        client.Disconnect();
         return $"Created directory {path}";
     }
 
@@ -155,12 +146,13 @@ public class FtpTool
     public string DeleteDirectory(
         [Description("The path to delete the directory from. Example: '/path/to/directory'")] string path)
     {
-        using var client = new FtpClient(FtpCredential.host, FtpCredential.username, FtpCredential.password, FtpCredential.port);
-        client.Connect();
+        _client.DeleteDirectory(path);
 
-        client.DeleteDirectory(path);
-
-        client.Disconnect();
         return $"Deleted directory {path}";
+    }
+
+    public void Dispose()
+    {
+        _client.Disconnect();
     }
 }
